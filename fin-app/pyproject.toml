@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "fin-app"
+version = "0.1.0"
+description = ""
+authors = ["Fabio Bara <fabio.bara.dev@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.1.5"
+djangorestframework = "^3.15.2"
+markdown = "^3.7"
+psycopg2 = "^2.9.10"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+isort = "^5.13.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
