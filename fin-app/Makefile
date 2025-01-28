@@ -1,9 +1,11 @@
 local/install:
 	python -m venv ./venv && \
-	. ./venv/bin/activate && \
+	. source venv/bin/activate && \
 	poetry install
 
-local/server: local/install
+local/enviroment: local/db local/install migrate local/server
+
+local/server:
 	. ./venv/bin/activate && \
 	poetry run python manage.py runserver
 
@@ -17,3 +19,7 @@ migrate:
 code/format:
 	poetry run isort .
 	poetry run black .
+
+tests/unit:
+	poetry run pytest
+
