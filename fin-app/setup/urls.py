@@ -5,7 +5,9 @@ from fin_app.presentation.api.server_builder import RouteBuilder
 builder = RouteBuilder()
 
 acc_base_route, acc_get_by_id = builder.build_account_route()
-transaction_base_route, get_transaction_by_account_id, cancel_transfer = builder.build_transaction_route()
+transaction_base_route, get_transaction_by_account_id, cancel_transfer = (
+    builder.build_transaction_route()
+)
 
 urlpatterns = [
     path("account/", acc_base_route, name="account"),

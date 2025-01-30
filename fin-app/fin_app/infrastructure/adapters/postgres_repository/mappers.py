@@ -1,8 +1,16 @@
 from typing import List
 
-from fin_app.domain.entities import AccountDomain, TransactionTypeDomain, TransferDomain, TransactionDomain
+from fin_app.domain.entities import (
+    AccountDomain,
+    TransactionDomain,
+    TransactionTypeDomain,
+    TransferDomain,
+)
 from fin_app.domain.errors import TransactionTypeMismatchError
-from fin_app.infrastructure.adapters.postgres_repository.models import Transaction, Transfer
+from fin_app.infrastructure.adapters.postgres_repository.models import (
+    Transaction,
+    Transfer,
+)
 
 
 class AccountMapper:
@@ -24,7 +32,7 @@ class TransferGetAllMapper:
             id=transfer.id,
             value=transfer.value,
             created_at=transfer.created_at,
-            cancel_at=transfer.cancel_at
+            cancel_at=transfer.cancel_at,
         )
         transactions = transfer.transfers.all()
         for transaction in transactions:
@@ -55,7 +63,7 @@ class TransferMapper:
             id=transfer.id,
             value=transfer.value,
             created_at=transfer.created_at,
-            cancel_at=transfer.cancel_at
+            cancel_at=transfer.cancel_at,
         )
 
         if transaction.type == TransactionTypeDomain.CASH_IN.value:
@@ -85,7 +93,7 @@ class TransferFromListMapper:
             created_at=transaction[0].transfer.created_at,
             money_to=money_to,
             money_from=money_from,
-            cancel_at=transaction[0].cancel_at
+            cancel_at=transaction[0].cancel_at,
         )
 
         return transfer_domain

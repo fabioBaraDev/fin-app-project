@@ -50,7 +50,7 @@ class TestAccountController(TestCase):
                 "name": expected_account.name,
                 "type": expected_account.type.value,
                 "balance": str(round(expected_account.balance, 2)),
-            }
+            },
         )
         self.service_mock.create.assert_called_once()
 

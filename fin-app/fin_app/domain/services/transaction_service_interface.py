@@ -3,7 +3,9 @@ from abc import ABC
 from typing import List
 
 from fin_app.domain.entities import TransferDomain
-from fin_app.presentation.api.adapters.serializers.transaction_serializer import TransactTransferSerializer
+from fin_app.presentation.api.adapters.serializers.transaction_serializer import (
+    TransactTransferSerializer,
+)
 
 
 class TransactionServiceInterface(ABC):

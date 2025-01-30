@@ -57,4 +57,3 @@ class Transaction(models.Model):
     transfer = models.ForeignKey(
         Transfer, on_delete=models.CASCADE, related_name="transfers"
     )
-

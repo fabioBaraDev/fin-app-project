@@ -30,8 +30,8 @@ class TestAccountRepository(unittest.TestCase):
         ]
 
         mock_account_data = [
-            ModelFactories.create_account_domain(expected_domains[0]),
-            ModelFactories.create_account_domain(expected_domains[1]),
+            ModelFactories.create_account_model(expected_domains[0]),
+            ModelFactories.create_account_model(expected_domains[1]),
         ]
         self.mock_account_model.objects.all.return_value = mock_account_data
 
@@ -43,7 +43,7 @@ class TestAccountRepository(unittest.TestCase):
     def test_get_by_id_success(self):
         domain = DomainFactories.create_account_domain()
         self.mock_account_model.objects.get.return_value = (
-            ModelFactories.create_account_domain(domain)
+            ModelFactories.create_account_model(domain)
         )
 
         result = self.repository.get_by_id(domain.id)

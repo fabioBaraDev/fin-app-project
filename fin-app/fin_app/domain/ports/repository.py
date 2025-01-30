@@ -31,4 +31,3 @@ class TransactionRepositoryInterface(ABC):
 
     def get_by_transfer_id(self, id: Decimal) -> TransferDomain:
         pass
-

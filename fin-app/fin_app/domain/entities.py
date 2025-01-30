@@ -4,7 +4,10 @@ from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
 
-from fin_app.domain.errors import FromAccountHasNoMoneyToTransfer, FromAccountHasNoFundsToTransfer
+from fin_app.domain.errors import (
+    FromAccountHasNoFundsToTransfer,
+    FromAccountHasNoMoneyToTransfer,
+)
 
 
 class AccountCategoryDomain(enum.Enum):
@@ -88,19 +91,21 @@ class TransferDomain:
         self.money_to.cancel()
 
     @classmethod
-    def build_transfer(cls, from_account: AccountDomain, to_account: AccountDomain, value: Decimal):
+    def build_transfer(
+        cls, from_account: AccountDomain, to_account: AccountDomain, value: Decimal
+    ):
         money_from = TransactionDomain(
             id=uuid.uuid4(),
             value=value,
             type=TransactionTypeDomain.CASH_OUT,
-            account=from_account
+            account=from_account,
         )
 
         money_to = TransactionDomain(
             id=uuid.uuid4(),
             value=value,
             type=TransactionTypeDomain.CASH_IN,
-            account=to_account
+            account=to_account,
         )
 
         return cls(

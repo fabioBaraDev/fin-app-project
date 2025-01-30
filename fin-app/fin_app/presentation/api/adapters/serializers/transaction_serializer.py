@@ -1,8 +1,14 @@
 from rest_framework import serializers
-
-from fin_app.domain.entities import TransactionTypeDomain, TransactionDomain, TransferDomain
-from fin_app.presentation.api.adapters.serializers.account_serializer import AccountSerializer
 from rest_framework.validators import ValidationError
+
+from fin_app.domain.entities import (
+    TransactionDomain,
+    TransactionTypeDomain,
+    TransferDomain,
+)
+from fin_app.presentation.api.adapters.serializers.account_serializer import (
+    AccountSerializer,
+)
 
 
 class TransactionSerializer(serializers.Serializer):
@@ -11,7 +17,7 @@ class TransactionSerializer(serializers.Serializer):
     type = serializers.ChoiceField(
         choices=(
             (TransactionTypeDomain.CASH_IN.name, TransactionTypeDomain.CASH_IN.value),
-            (TransactionTypeDomain.CASH_OUT.name, TransactionTypeDomain.CASH_OUT.value)
+            (TransactionTypeDomain.CASH_OUT.name, TransactionTypeDomain.CASH_OUT.value),
         )
     )
     account = AccountSerializer()
@@ -71,9 +77,9 @@ class TransactTransferSerializer(serializers.Serializer):
         return value
 
     def create(self, validated_data):
-        self.from_account_id = validated_data['from_account_id']
-        self.to_account_id = validated_data['to_account_id']
-        self.value = validated_data['value']
+        self.from_account_id = validated_data["from_account_id"]
+        self.to_account_id = validated_data["to_account_id"]
+        self.value = validated_data["value"]
 
     def update(self, instance, validated_data):
         pass
@@ -83,7 +89,7 @@ class CancelTransactSerializer(serializers.Serializer):
     transfer_id = serializers.UUIDField()
 
     def create(self, validated_data):
-        self.transfer_id = validated_data['transfer_id']
+        self.transfer_id = validated_data["transfer_id"]
 
     def update(self, instance, validated_data):
         pass
