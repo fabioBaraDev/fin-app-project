@@ -3,8 +3,8 @@ from unittest.mock import MagicMock
 from django.test import RequestFactory, TestCase
 from rest_framework import status
 
+from fin_app.domain.errors import AccountNotFoundError
 from fin_app.domain.services.account_service_interface import AccountServiceInterface
-from fin_app.infrastructure.common.errors import AccountNotFoundError
 from fin_app.presentation.api.adapters.routes.account_controller import (
     account_controller,
 )

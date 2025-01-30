@@ -1,10 +1,10 @@
 from django.core.exceptions import ObjectDoesNotExist
 
 from fin_app.domain.entities import AccountDomain
+from fin_app.domain.errors import AccountNotFoundError
 from fin_app.domain.ports.repository import AccountRepositoryInterface
 from fin_app.infrastructure.adapters.postgres_repository.mappers import AccountMapper
 from fin_app.infrastructure.adapters.postgres_repository.models import Account
-from fin_app.infrastructure.common.errors import AccountNotFoundError
 
 
 class AccountRepository(AccountRepositoryInterface):

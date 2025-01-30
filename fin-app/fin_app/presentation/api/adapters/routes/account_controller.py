@@ -3,17 +3,17 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from fin_app.domain.errors import AccountNotFoundError
 from fin_app.domain.services.account_service_interface import AccountServiceInterface
-from fin_app.infrastructure.common.errors import AccountNotFoundError
 from fin_app.presentation.api.adapters.serializers.account_serializer import (
     AccountSerializer,
 )
 
-# I used a curry from functional programming,
-# in order to Django accept my dependency inversion strategy
 from fin_app.presentation.api.adapters.util import is_valid_uuid
 
 
+# I used a curry from functional programming,
+# in order to Django accept my dependency inversion strategy
 def account_controller(service: AccountServiceInterface):
     def get(request):
         accounts = service.get_all()
@@ -22,12 +22,11 @@ def account_controller(service: AccountServiceInterface):
 
     @transaction.atomic
     def create(request):
-
         serializer = AccountSerializer(data=request.data)
         if serializer.is_valid():
             service.create(serializer.to_domain())
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @api_view(["GET", "POST"])
     def base_path_route(request):

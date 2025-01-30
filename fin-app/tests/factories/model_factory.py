@@ -3,10 +3,9 @@ from decimal import Decimal
 
 from faker import Faker
 
-from fin_app.domain.entities import AccountDomain
+from fin_app.domain.entities import AccountDomain, AccountCategoryDomain
 from fin_app.infrastructure.adapters.postgres_repository.models import (
     Account,
-    AccountCategory,
 )
 
 faker = Faker()
@@ -20,7 +19,7 @@ class ModelFactories:
             type=(
                 domain.type
                 if domain
-                else faker.random_element(elements=AccountCategory)
+                else faker.random_element(elements=AccountCategoryDomain)
             ),
             id=domain.id if domain else faker.uuid4(),
             balance=domain.balance if domain.balance else Decimal(faker.pyfloat()),
