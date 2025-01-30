@@ -1,3 +1,4 @@
+import uuid
 from unittest.mock import MagicMock
 
 from django.test import RequestFactory, TestCase
@@ -36,13 +37,20 @@ class TestAccountController(TestCase):
             content_type="application/json",
         )
 
-        self.service_mock.create.return_value = None
+        expected_account = DomainFactories.create_account_domain()
+        self.service_mock.create.return_value = expected_account
 
         response = self.base_path_route(request)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(
-            response.data, {"name": "Test Account", "type": "A", "balance": "1000.00"}
+            response.data,
+            {
+                "id": str(expected_account.id),
+                "name": expected_account.name,
+                "type": expected_account.type.value,
+                "balance": str(round(expected_account.balance, 2)),
+            }
         )
         self.service_mock.create.assert_called_once()
 

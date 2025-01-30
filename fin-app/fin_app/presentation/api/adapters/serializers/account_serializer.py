@@ -31,3 +31,18 @@ class AccountSerializer(serializers.Serializer):
             type=self.validated_data["type"],
             balance=self.validated_data["balance"],
         )
+
+
+class PageAccountSerializer(serializers.Serializer):
+    accounts = AccountSerializer(many=True)
+    count = serializers.IntegerField()
+    num_pages = serializers.IntegerField()
+    current_page = serializers.IntegerField()
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
+
+

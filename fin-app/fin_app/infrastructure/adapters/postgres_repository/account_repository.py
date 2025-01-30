@@ -1,3 +1,5 @@
+from typing import List
+
 from django.core.exceptions import ObjectDoesNotExist
 
 from fin_app.domain.entities import AccountDomain
@@ -8,7 +10,7 @@ from fin_app.infrastructure.adapters.postgres_repository.models import Account
 
 
 class AccountRepository(AccountRepositoryInterface):
-    def get_all(self) -> list[AccountDomain]:
+    def get_all(self) -> List[AccountDomain]:
         return [AccountMapper.to_entity(row) for row in Account.objects.all()]
 
     def get_by_id(self, id) -> AccountDomain:

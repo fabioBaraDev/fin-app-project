@@ -2,12 +2,12 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db import transaction
-
+from django.core.paginator import Paginator
 from fin_app.domain.errors import AccountNotFoundError, TransactionNotFoundError, FromAccountHasNoFundsToTransfer, \
-     TransactionTypeMismatchError
+    TransactionTypeMismatchError
 from fin_app.domain.services.transaction_service_interface import TransactionServiceInterface
 from fin_app.presentation.api.adapters.serializers.transaction_serializer import TransferSerializer, \
-    TransferByAccountSerializer, TransactTransferSerializer, CancelTransactSerializer
+    TransferByAccountSerializer, TransactTransferSerializer, CancelTransactSerializer, PageTransferSerializer
 
 from fin_app.presentation.api.adapters.util import is_valid_uuid
 
@@ -17,8 +17,19 @@ from fin_app.presentation.api.adapters.util import is_valid_uuid
 def transaction_controller(service: TransactionServiceInterface):
     def get(request):
         transfers = service.get_all()
-        serializer = TransferSerializer(transfers, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+
+        page_number = request.GET.get('page', 1)
+        paginator = Paginator(transfers, 3)
+        page_obj = paginator.get_page(page_number)
+
+        response = PageTransferSerializer({
+            'data': page_obj.object_list,
+            'count': paginator.count,
+            'num_pages': paginator.num_pages,
+            'current_page': page_obj.number,
+        })
+
+        return Response(response.data, status=status.HTTP_200_OK)
 
     @transaction.atomic
     def create(request):
@@ -70,8 +81,19 @@ def transaction_controller(service: TransactionServiceInterface):
 
         try:
             transfers = service.get_by_account_id(id)
-            serializer = TransferByAccountSerializer(transfers, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+
+            page_number = request.GET.get('page', 1)
+            paginator = Paginator(transfers, 3)
+            page_obj = paginator.get_page(page_number)
+
+            response = PageTransferSerializer({
+                'data': page_obj.object_list,
+                'count': paginator.count,
+                'num_pages': paginator.num_pages,
+                'current_page': page_obj.number,
+            })
+
+            return Response(response.data, status=status.HTTP_200_OK)
         except (AccountNotFoundError, TransactionNotFoundError) as e:
             return Response({"error": e.message}, status=e.error_status)
         except Exception as e:

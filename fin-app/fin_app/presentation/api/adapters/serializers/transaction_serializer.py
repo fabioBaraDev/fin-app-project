@@ -87,3 +87,16 @@ class CancelTransactSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         pass
+
+
+class PageTransferSerializer(serializers.Serializer):
+    data = TransferByAccountSerializer(many=True)
+    count = serializers.IntegerField()
+    num_pages = serializers.IntegerField()
+    current_page = serializers.IntegerField()
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
