@@ -9,7 +9,7 @@ local/server:
 	. ./venv/bin/activate && \
 	poetry run python manage.py runserver
 
-local/db:
+docker/run:
 	docker-compose up -d
 
 migrate:
@@ -21,5 +21,8 @@ code/format:
 	poetry run black .
 
 tests/unit:
-	poetry run pytest
+	poetry run python run_test.py
+
+docker/local/enviroment: docker/run
+	docker-compose exec web python manage.py migrate
 
