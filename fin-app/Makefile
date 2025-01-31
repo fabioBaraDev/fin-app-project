@@ -3,7 +3,7 @@ local/install:
 	. source venv/bin/activate && \
 	poetry install
 
-local/enviroment: local/db local/install migrate local/server
+local/enviroment: local/install migrate local/server
 
 local/server:
 	. ./venv/bin/activate && \
